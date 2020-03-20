@@ -101,7 +101,6 @@ def shutdown(x=None):
         from services import driver
         from main import control
         from main import events
-        from main import settings
         from logs import weblog
         from logs import webtraffic
         from system import tmpfile
@@ -128,7 +127,7 @@ def shutdown(x=None):
         run_upnpc.shutdown()
         net_misc.shutdown()
         git_proc.shutdown()
-        events.shutdown()
+        events.clear_subscribers()
         tmpfile.shutdown()
         control.shutdown()
         try:
@@ -144,7 +143,6 @@ def shutdown(x=None):
         for a in survived_automats:
             if a.name != 'shutdowner':
                 a.event('shutdown')
-        settings.shutdown()
     except:
         lg.exc()
     # TODO: rework all shutdown() methods to return deferred objects
@@ -313,7 +311,6 @@ class Shutdowner(automat.Automat):
                 std_out=os.path.join(appdata, 'logs', 'stdout.log'),
                 std_err=os.path.join(appdata, 'logs', 'stderr.log'),
             )
-            settings.shutdown()
 
         def shutdown_finished(x, param):
             if _Debug:

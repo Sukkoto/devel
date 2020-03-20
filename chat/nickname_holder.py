@@ -356,7 +356,6 @@ def main():
     dht_service.init(settings.getDHTPort())
     reactor.callWhenRunning(A, 'init', sys.argv[1])  # @UndefinedVariable
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()
 
 
 if __name__ == "__main__":

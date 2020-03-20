@@ -108,7 +108,6 @@ class Test(TestCase):
         tmpfile.shutdown()
         key.ForgetMyKey()
         my_id.forgetLocalIdentity()
-        settings.shutdown()
         os.remove('/tmp/_some_priv_key')
         bpio.rmdir_recursive('/tmp/.bitdust_tmp')
         os.remove('/tmp/random_file')

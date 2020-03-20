@@ -608,7 +608,6 @@ def main():
             print(child, conf().listEntries(child))
         else:
             print(child, conf().getData(child))
-    settings.shutdown()
     return
 
 #    last = ''

@@ -58,7 +58,6 @@ from logs import lg
 
 from automats import automat
 
-from p2p import lookup
 from p2p import p2p_service
 from p2p import p2p_service_seeker
 
@@ -239,7 +238,6 @@ class ContractChainConsumer(automat.Automat):
         self.accountant_lookups += 1
         p2p_service_seeker.connect_random_node(
             'service_accountant',
-            lookup_method=lookup.random_merchant,
             service_params={'action': 'read', },
             exclude_nodes=self.connected_accountants,
         ).addBoth(self._on_accountant_lookup_finished)
@@ -262,7 +260,4 @@ class ContractChainConsumer(automat.Automat):
             self.automat('miner-failed')
             return
         self.miner_lookups += 1
-        p2p_service_seeker.connect_random_node(
-            'service_miner',
-            lookup_method=lookup.random_merchant,  # TODO: rework if needed
-        ).addBoth(self._on_miner_lookup_finished)
+        p2p_service_seeker.connect_random_node('service_miner').addBoth(self._on_miner_lookup_finished)

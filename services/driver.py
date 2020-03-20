@@ -731,7 +731,6 @@ def main():
     init()
     # print '\n'.join(_BootUpOrder)
     shutdown()
-    settings.shutdown()
 
 
 if __name__ == '__main__':

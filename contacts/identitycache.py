@@ -174,7 +174,6 @@ def GetLatest(idurl):
     Returns latest copy from cache or fire `immediatelyCaching`,
     result is a `Deferred` object.
     """
-    idurl = id_url.to_original(idurl)
     known = FromCache(idurl)
     result = Deferred()
     if known:
@@ -563,7 +562,6 @@ def _test():
     immediatelyCaching(sys.argv[1]).addBoth(_resp)
     reactor.run()  # @UndefinedVariable
     shutdown()
-    settings.shutdown()
 
 #------------------------------------------------------------------------------
 

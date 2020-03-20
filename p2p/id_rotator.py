@@ -636,6 +636,7 @@ class IdRotator(automat.Automat):
 #------------------------------------------------------------------------------
 
 def main():
+    import sys
     from system import bpio
     bpio.init()
     settings.init()
@@ -646,7 +647,6 @@ def main():
     ir.addStateChangedCallback(lambda *a: reactor.stop(), oldstate=None, newstate='FAILED')  # @UndefinedVariable
     reactor.callWhenRunning(ir.automat, 'run')  # @UndefinedVariable
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()
 
 #------------------------------------------------------------------------------
 

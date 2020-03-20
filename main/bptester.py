@@ -362,7 +362,6 @@ def main():
         printlog('ERROR wrong command: %r' % sys.argv)
         return
     cmd()
-    settings.shutdown()
 
 #------------------------------------------------------------------------------
 

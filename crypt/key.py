@@ -429,4 +429,3 @@ if __name__ == '__main__':
     settings.init()
     InitMyKey()
     SpeedTest()
-    settings.shutdown()

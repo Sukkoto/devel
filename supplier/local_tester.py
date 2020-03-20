@@ -241,4 +241,3 @@ if __name__ == "__main__":
     settings.init()
     init()
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()

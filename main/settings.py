@@ -82,6 +82,7 @@ _BackupMaxBlockSize = None
 #---INIT-----------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
+
 def init(base_dir=None):
     """
     Must be called before all other things.
@@ -100,7 +101,7 @@ def init(base_dir=None):
     _InitDone = True
     deploy.init_base_dir(base_dir)
     if _Debug:
-        lg.out(_DebugLevel, 'settings.init data location is %r' % BaseDir())
+        lg.out(_DebugLevel, 'settings.init data location: ' + BaseDir())
     _checkMetaDataDirectory()
     _checkConfigDirectory()
     # TODO: keep that here as an example solution for possible manual migrations
@@ -114,18 +115,6 @@ def init(base_dir=None):
     _createNotExisingSettings()
     _checkStaticDirectories()
     _checkCustomDirectories()
-
-
-def shutdown():
-    """
-    """
-    global _InitDone
-    global _BaseDirPath
-    _InitDone = False
-    if _Debug:
-        lg.out(_DebugLevel, 'settings.shutdown data location was %r' % BaseDir())
-    _BaseDirPath = None
-    config.shutdown()
 
 #------------------------------------------------------------------------------
 #---USER CONFIG----------------------------------------------------------------
@@ -914,17 +903,6 @@ def DHTDataDir():
     """
     return os.path.join(BaseDir(), 'dht')
 
-
-def ServicesDataDir():
-    """
-    """
-    return os.path.join(BaseDir(), 'servicedata')
-
-
-def ServiceDir(service_name):
-    """
-    """
-    return os.path.join(ServicesDataDir(), service_name.replace('service_', ''))
 
 #------------------------------------------------------------------------------
 #--- FILES --------------------------------------------------------------------

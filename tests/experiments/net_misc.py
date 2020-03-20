@@ -37,26 +37,26 @@ if __name__ == '__main__':
                         sys.argv[0])), '..', '..')))
 
 
+
 def main():
     def _ok(x):
         print('ok', x)
-        reactor.stop()  # @UndefinedVariable
+        reactor.stop()
 
     def _fail(x):
         print('fail', x)
-        reactor.stop()  # @UndefinedVariable
+        reactor.stop()
 
     from lib import net_misc
     from main import settings
     settings.init()
     settings.update_proxy_settings()
+    # url = 'http://p2p-id.ru/atg314.xml'
     url = 'http://localhost:8084'
     r = net_misc.getPageTwisted(url)
     r.addCallback(_ok)
     r.addErrback(_fail)
-    reactor.run()  # @UndefinedVariable
-    settings.shutdown()
-
+    reactor.run()
 
 if __name__ == '__main__':
     main()

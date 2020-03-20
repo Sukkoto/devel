@@ -60,10 +60,6 @@ _DebugLevel = 6
 
 #------------------------------------------------------------------------------
 
-import os
-
-#------------------------------------------------------------------------------
-
 from twisted.internet.defer import Deferred
 
 #------------------------------------------------------------------------------
@@ -90,7 +86,6 @@ class LocalService(automat.Automat):
 
     service_name = ''
     config_path = ''
-    data_dir_required = False
 
     def __init__(self):
         if not self.service_name:
@@ -98,10 +93,6 @@ class LocalService(automat.Automat):
         if self.service_name in list(services().keys()):
             raise ServiceAlreadyExist(self.service_name)
         self.result_deferred = None
-        if self.data_dir_required:
-            my_data_dir_path = self.data_dir_path()
-            if not os.path.isdir(my_data_dir_path):
-                os.makedirs(my_data_dir_path)
         automat.Automat.__init__(self, name=self.service_name, state='OFF',
                                  debug_level=_DebugLevel, log_events=_Debug, log_transitions=_Debug, )
 
@@ -143,10 +134,6 @@ class LocalService(automat.Automat):
         else:
             self.result_deferred.addCallback(lambda *a, **kw: cb(*a, **kw))
         return self.result_deferred
-
-    def data_dir_path(self):
-        from main import settings
-        return settings.ServiceDir(self.service_name)
 
     #------------------------------------------------------------------------------
 

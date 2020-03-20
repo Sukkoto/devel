@@ -613,6 +613,7 @@ def safe_stun(udp_port=None, dht_port=None, result_defer=None):
         http_stun(result_defer=result)
         return None
 
+    settings.init()
     first_result = Deferred()
     first_result.addCallback(_check_response)
     first_result.addErrback(_fallback)
@@ -661,7 +662,6 @@ def main():
     A('init', (udp_port))
     A('start', _cb)
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()
 
 #------------------------------------------------------------------------------
 

@@ -671,7 +671,6 @@ def main():
     A().addStateChangedCallback(lambda *a: reactor.stop(), oldstate=None, newstate='FAILED')  # @UndefinedVariable
     reactor.callWhenRunning(A, 'start', args)  # @UndefinedVariable
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()
 
 #------------------------------------------------------------------------------
 

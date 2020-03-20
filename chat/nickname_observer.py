@@ -344,7 +344,6 @@ def main():
     else:
         find_one(sys.argv[2], int(sys.argv[3]), _result)
     reactor.run()  # @UndefinedVariable
-    settings.shutdown()
 
 
 if __name__ == "__main__":

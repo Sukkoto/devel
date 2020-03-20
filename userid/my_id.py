@@ -73,7 +73,6 @@ from userid import id_url
 
 _LocalIdentity = None
 _LocalIDURL = None
-_LocalID = None
 _LocalName = None
 _ValidTransports = ['tcp', 'udp', 'http', 'proxy', ]
 
@@ -121,7 +120,6 @@ def setLocalIdentity(ident):
     """
     global _LocalIdentity
     global _LocalIDURL
-    global _LocalID
     global _LocalName
     if not ident:
         return
@@ -142,7 +140,6 @@ def setLocalIdentity(ident):
         lg.exc()
     _LocalIDURL = _LocalIdentity.getIDURL()
     _LocalIDURL.refresh(replace_original=True)
-    _LocalID = _LocalIDURL.to_id()
     _LocalName = _LocalIdentity.getIDName()
     li_json = _LocalIdentity.serialize_json()
     new_json['revision'] = li_json['revision']
@@ -198,28 +195,11 @@ def getGlobalID(key_alias=None):
     """
     Return my global user id - according to my current IDURL.
     """
-    global _LocalID
-    if not key_alias and _LocalID is not None:
-        return _LocalID
     from userid import global_id
     glob_id = global_id.UrlToGlobalID(getLocalID())
     if key_alias:
         glob_id = '{}${}'.format(key_alias, glob_id)
     return glob_id
-
-
-def getIDURL():
-    """
-    Return my global IDURL.
-    """
-    return getLocalID()
-
-
-def getID():
-    """
-    Return my global ID.
-    """
-    return getGlobalID()
 
 #------------------------------------------------------------------------------
 
@@ -233,6 +213,8 @@ def loadLocalIdentity():
     in memory.
     """
     global _LocalIdentity
+    global _LocalIDURL
+    global _LocalName
     xmlid = ''
     filename = bpio.portablePath(settings.LocalIdentityFilename())
     if os.path.exists(filename):
@@ -253,6 +235,9 @@ def loadLocalIdentity():
             lg.out(_DebugLevel, "my_id.loadLocalIdentity ERROR loaded identity is not Valid")
         return False
     setLocalIdentity(lid)
+#     _LocalIdentity = lid
+#     _LocalIDURL = lid.getIDURL()
+#     _LocalName = lid.getIDName()
     setTransportOrder(getOrderFromContacts(_LocalIdentity))
     if _Debug:
         lg.out(_DebugLevel, "my_id.loadLocalIdentity my global id is %s" % getGlobalID())
@@ -266,6 +251,8 @@ def saveLocalIdentity():
     Do sign the identity than serialize to write to the file.
     """
     global _LocalIdentity
+    # global _LocalIDURL
+    # global _LocalName
     if not isLocalIdentityReady():
         lg.warn("ERROR local identity not exist!")
         return False
@@ -276,6 +263,8 @@ def saveLocalIdentity():
     if not _LocalIdentity.Valid():
         lg.err('local identity is not valid')
         return False
+    # _LocalIDURL = None
+    # _LocalName = None
     xmlid = _LocalIdentity.serialize(as_text=True)
     filename = bpio.portablePath(settings.LocalIdentityFilename())
     bpio.WriteTextFile(filename, xmlid)
@@ -291,7 +280,6 @@ def forgetLocalIdentity():
     """
     global _LocalIdentity
     global _LocalIDURL
-    global _LocalID
     global _LocalName
     if not isLocalIdentityReady():
         if _Debug:
@@ -301,7 +289,6 @@ def forgetLocalIdentity():
         lg.out(_DebugLevel, "my_id.saveLocalIdentity")
     _LocalIdentity = None
     _LocalIDURL = None
-    _LocalID = None
     _LocalName = None
     events.send('local-identity-cleaned', dict())
     return True
